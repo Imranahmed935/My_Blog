@@ -2,10 +2,20 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 
 export default async function Profile() {
-  const { isAuthenticated } = getKindeServerSession();
-  const isUserAuthenticated = await isAuthenticated();
+  try {
+    const session = getKindeServerSession();
+    if (!session) {
+      console.error("Failed to retrieve session");
+      redirect("/api/auth/login");
+      return;
+    }
 
-  if (!isUserAuthenticated) {
+    const isUserAuthenticated = await session.isAuthenticated();
+    if (!isUserAuthenticated) {
+      redirect("/api/auth/login?post_login_redirect_url=/protected");
+    }
+  } catch (error) {
+    console.error("Error in session or authentication check:", error);
     redirect("/api/auth/login");
   }
 
