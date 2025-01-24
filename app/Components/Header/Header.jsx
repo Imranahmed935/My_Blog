@@ -8,7 +8,7 @@ export default async function Header() {
   const isUserAuthenticated = await isAuthenticated();
 
   return (
-    <nav className="lg:w-7/12 mx-auto flex py-4 justify-between">
+    <nav className="lg:w-7/12 mx-auto flex py-4 justify-between border-b-2 border-gray-600">
       <h1 className="text-2xl font-bold text-black">My Blog</h1>
       <div className="flex gap-4">
         <Link href={"/"}>
